@@ -9,4 +9,18 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("mysql:mysql-connector-java:6.0.6")
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+
+def testDbUrl = "jdbc:mysql://localhost:3306/board_selector_test?user=board_selector&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
+test.environment([
+        "SPRING_DATASOURCE_URL": testDbUrl,
+])
+
+def developmentDbUrl = "jdbc:mysql://localhost:3306/board_selector_dev?user=board_selector&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
+bootRun.environment([
+        "SPRING_DATASOURCE_URL": developmentDbUrl
+])
