@@ -2,4 +2,7 @@ apply from: "$projectDir/../server.gradle"
 
 dependencies {
     compile project(":components:construction")
+
+    testCompile project(":components:test-support")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }

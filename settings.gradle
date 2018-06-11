@@ -8,3 +8,16 @@ include "components:rest-support"
 include "components:test-support"
 
 include "databases:board-database"
+
+//def includeSubFolders(String folder) {
+//    file(folder).eachDir {
+//        if (it.name != "build") {
+//            include("$folder:$it.name")
+//        }
+//    }
+//}
+//
+//includeSubFolders("applications")
+//includeSubFolders("components")
+//includeSubFolders("databases")
+//include("frontends")
