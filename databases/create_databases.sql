@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS construction_dev;
-DROP DATABASE IF EXISTS construction_test;
+DROP DATABASE IF EXISTS board_server_dev;
+DROP DATABASE IF EXISTS board_server_test;
 
-CREATE DATABASE construction_dev;
-CREATE DATABASE construction_test;
+CREATE DATABASE board_server_dev;
+CREATE DATABASE board_server_test;
 
 CREATE USER IF NOT EXISTS 'board_selector'@'localhost'
   IDENTIFIED BY '';

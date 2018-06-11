@@ -22,7 +22,7 @@ public class ConstructionRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        testScenarioSupport = new TestScenarioSupport("construction_test");
+        testScenarioSupport = new TestScenarioSupport("board_server_test");
         jdbcTemplate = testScenarioSupport.template;
 
         repository = new ConstructionRepository(testScenarioSupport.dataSource);

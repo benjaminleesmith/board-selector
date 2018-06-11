@@ -17,7 +17,7 @@ public class TestScenarioSupport {
     }
 
     public static void clearAllDatabases() {
-        clearTables("construction_test", "constructions");
+        clearTables("board_server_test", "constructions");
 //        clearTables("tracker_backlog_test", "stories");
 //        clearTables("tracker_registration_test", "projects", "accounts", "users");
 //        clearTables("tracker_timesheets_test", "time_entries");

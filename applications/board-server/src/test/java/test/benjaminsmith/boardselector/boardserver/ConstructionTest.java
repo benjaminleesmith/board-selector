@@ -17,14 +17,14 @@ import java.util.TimeZone;
 import static com.jayway.jsonpath.JsonPath.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BoardAppTest {
+public class ConstructionTest {
     private TestScenarioSupport testScenarioSupport;
     private JdbcTemplate jdbcTemplate;
     private ConstructionRepository repository;
 
     @Before
     public void setUp() throws Exception {
-        testScenarioSupport = new TestScenarioSupport("construction_test");
+        testScenarioSupport = new TestScenarioSupport("board_server_test");
         jdbcTemplate = testScenarioSupport.template;
         repository = new ConstructionRepository(testScenarioSupport.dataSource);
 
