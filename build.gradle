@@ -1,26 +1,35 @@
-plugins {
-    id "java"
-    id "org.springframework.boot" version "1.5.4.RELEASE"
+buildscript {
+    ext {
+        springBootVersion = "1.5.7.RELEASE"
+        springVersion = "4.3.8.RELEASE"
+        mysqlVersion = "6.0.6"
+        springCloudServicesVersion = "1.6.0.RELEASE"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "mysql:mysql-connector-java:$mysqlVersion"
+    }
 }
 
-repositories {
-    mavenCentral()
+subprojects {
+    group "org.benjaminsmith.boardselector"
+
+    apply plugin: "java"
+    defaultTasks "clean", "build"
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        testCompile "junit:junit:4.12"
+        testCompile "org.mockito:mockito-core:2.2.26"
+        testCompile "org.assertj:assertj-core:3.8.0"
+    }
 }
-
-dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-jdbc")
-    compile("mysql:mysql-connector-java:6.0.6")
-
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-}
-
-def testDbUrl = "jdbc:mysql://localhost:3306/board_selector_test?user=board_selector&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
-test.environment([
-        "SPRING_DATASOURCE_URL": testDbUrl,
-])
-
-def developmentDbUrl = "jdbc:mysql://localhost:3306/board_selector_dev?user=board_selector&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
-bootRun.environment([
-        "SPRING_DATASOURCE_URL": developmentDbUrl
-])

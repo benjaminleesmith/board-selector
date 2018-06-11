@@ -1,0 +1,7 @@
+import org.benjaminsmith.boardselector.gradlebuild.CfMigrationPlugin
+import org.benjaminsmith.boardselector.gradlebuild.LocalMigrationPlugin
+
+subprojects {
+    apply plugin: LocalMigrationPlugin
+    apply plugin: CfMigrationPlugin
+}

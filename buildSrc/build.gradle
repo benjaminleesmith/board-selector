@@ -1,0 +1,8 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.flywaydb:flyway-gradle-plugin:5.0.2"
+    compile("mysql:mysql-connector-java:6.0.6")
+}

@@ -1,0 +1,5 @@
+databases {
+    devDatabase = "construction_dev"
+    testDatabase = "construction_test"
+    cfApp = "board-selector-construction"
+}
