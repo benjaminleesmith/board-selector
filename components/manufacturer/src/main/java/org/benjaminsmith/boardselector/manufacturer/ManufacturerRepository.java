@@ -2,17 +2,22 @@ package org.benjaminsmith.boardselector.manufacturer;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
 public class ManufacturerRepository {
     private JdbcTemplate jdbcTemplate;
+    private RowMapper<Manufacturer> rowMapper = new RowMapper<Manufacturer>() {
+        @Override
+        public Manufacturer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Manufacturer(rs.getLong("id"), rs.getString("name"));
+        }
+    };
 
     public ManufacturerRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -35,5 +40,9 @@ public class ManufacturerRepository {
 
         manufacturer.setId(holder.getKey().longValue());
         return manufacturer;
+    }
+
+    public List<Manufacturer> list() {
+        return jdbcTemplate.query("SELECT * FROM manufacturers", new Object[] {}, rowMapper);
     }
 }

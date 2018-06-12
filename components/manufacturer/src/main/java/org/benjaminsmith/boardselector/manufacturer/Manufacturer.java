@@ -4,6 +4,11 @@ public class Manufacturer {
     private String name;
     private long id;
 
+    public Manufacturer(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Manufacturer(String name) {
         this.name = name;
     }
