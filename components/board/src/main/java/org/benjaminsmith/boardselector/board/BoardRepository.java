@@ -5,11 +5,13 @@ import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
 import java.util.List;
 
+@Repository
 public class BoardRepository {
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Board> boardRowMapper = new RowMapper<Board>() {

@@ -6,6 +6,8 @@ public class Board {
     private long constructionId;
     private long manufacturerId;
 
+    public Board() {}
+
     public Board(long id, String model, long constructionId, long manufacturerId) {
         this.id = id;
         this.model = model;
