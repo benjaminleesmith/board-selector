@@ -23,7 +23,7 @@ public class ConstructionTest {
     private ConstructionRepository repository;
 
     @Before
-    public void setUp() {
+    public void setup() {
         testScenarioSupport = new TestScenarioSupport("board_server_test");
         jdbcTemplate = testScenarioSupport.template;
         repository = new ConstructionRepository(testScenarioSupport.dataSource);
