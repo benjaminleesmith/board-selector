@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -52,5 +54,20 @@ public class BoardRepositoryTest {
         assertThat(foundBoard.get("model")).isEqualTo(createdBoard.getModel());
         assertThat(foundBoard.get("manufacturer_id")).isEqualTo(manufacturer.getId());
         assertThat(foundBoard.get("construction_id")).isEqualTo(construction.getId());
+    }
+
+    @Test
+    public void testListReturnsAllBoards() {
+        Construction construction = constructionRepository.create(new Construction("Inflatable"));
+        Manufacturer manufacturer = manufacturerRepositry.create(new Manufacturer("Badfish"));
+        Board createdBoard = repository.create(new Board("IRS", construction.getId(), manufacturer.getId()));
+
+        List<Board> boards = repository.list();
+
+        assertThat(boards.size()).isEqualTo(1);
+        Board board = boards.get(0);
+        assertThat(board.getConstructionId()).isEqualTo(construction.getId());
+        assertThat(board.getManufacturerId()).isEqualTo(manufacturer.getId());
+        assertThat(board.getModel()).isEqualTo("IRS");
     }
 }

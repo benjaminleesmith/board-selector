@@ -6,6 +6,13 @@ public class Board {
     private long constructionId;
     private long manufacturerId;
 
+    public Board(long id, String model, long constructionId, long manufacturerId) {
+        this.id = id;
+        this.model = model;
+        this.constructionId = constructionId;
+        this.manufacturerId = manufacturerId;
+    }
+
     public Board(String model, long constructionId, long manufacturerId) {
         this.model = model;
         this.constructionId = constructionId;

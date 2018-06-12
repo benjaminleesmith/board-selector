@@ -2,17 +2,27 @@ package org.benjaminsmith.boardselector.board;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
 public class BoardRepository {
     private JdbcTemplate jdbcTemplate;
+    private RowMapper<Board> boardRowMapper = new RowMapper<Board>() {
+        @Override
+        public Board mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
+            return new Board(
+                    resultSet.getLong("id"),
+                    resultSet.getString("model"),
+                    resultSet.getLong("construction_id"),
+                    resultSet.getLong("manufacturer_id")
+            );
+        }
+    };
 
     public BoardRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -38,5 +48,9 @@ public class BoardRepository {
 
         board.setId(holder.getKey().longValue());
         return board;
+    }
+
+    public List<Board> list() {
+        return jdbcTemplate.query("SELECT * FROM boards", new Object[] {}, boardRowMapper);
     }
 }
