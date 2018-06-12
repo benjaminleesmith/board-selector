@@ -7,7 +7,13 @@ import org.benjaminsmith.boardselector.manufacturer.ManufacturerRepository;
 import org.benjaminsmith.boardselector.testsupport.TestScenarioSupport;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -16,11 +22,18 @@ import java.util.TimeZone;
 
 import static com.jayway.jsonpath.JsonPath.parse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class, webEnvironment = RANDOM_PORT)
 public class ManufacturerTest {
     private TestScenarioSupport testScenarioSupport;
     private JdbcTemplate jdbcTemplate;
     private ManufacturerRepository repository;
+
+    @LocalServerPort
+    private String port;
+    private TestRestTemplate restTemplate;
 
     @Before
     public void setup() {
@@ -30,15 +43,16 @@ public class ManufacturerTest {
 
         jdbcTemplate.execute("DELETE FROM manufacturers");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+        RestTemplateBuilder builder = new RestTemplateBuilder().rootUri("http://localhost:"+port);
+        restTemplate = new TestRestTemplate(builder);
     }
 
     @Test
     public void testManufacturer() {
         Manufacturer manufacturer = repository.create(new Manufacturer("Badfish"));
 
-        App.main(new String[]{});
-
-        String response = new RestTemplate().getForObject("http://localhost:8182/admin/manufacturers", String.class);
+        String response = restTemplate.getForObject("/admin/manufacturers", String.class);
 
         DocumentContext manufacturersJson = parse(response);
         ArrayList<HashMap> manufacturers = manufacturersJson.read("$", ArrayList.class);

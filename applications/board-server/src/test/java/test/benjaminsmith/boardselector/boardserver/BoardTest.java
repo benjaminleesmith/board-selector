@@ -11,21 +11,33 @@ import org.benjaminsmith.boardselector.manufacturer.ManufacturerRepository;
 import org.benjaminsmith.boardselector.testsupport.TestScenarioSupport;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.context.embedded.LocalServerPort;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.Document;
 import java.util.TimeZone;
 
 import static com.jayway.jsonpath.JsonPath.parse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class, webEnvironment = RANDOM_PORT)
 public class BoardTest {
     private TestScenarioSupport testScenarioSupport;
     private JdbcTemplate jdbcTemplate;
     private BoardRepository boardRepository;
     private ManufacturerRepository manufacturerRepository;
     private ConstructionRepository constructionRepository;
+
+    @LocalServerPort
+    private String port;
+    private TestRestTemplate restTemplate;
 
     @Before
     public void setup() {
@@ -37,17 +49,18 @@ public class BoardTest {
 
         jdbcTemplate.execute("DELETE FROM boards");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port);
+        restTemplate = new TestRestTemplate(restTemplateBuilder);
     }
 
     @Test
     public void testBoards() {
-        App.main(new String[]{});
-
         Manufacturer manufacturer = manufacturerRepository.create(new Manufacturer("Badfish"));
         Construction construction = constructionRepository.create(new Construction("inflatable"));
         Board boardToCreate = new Board("IRS", construction.getId(), manufacturer.getId());
 
-        String response = new RestTemplate().postForObject("http://localhost:8182/admin/boards", boardToCreate, String.class);
+        String response = restTemplate.postForObject("/admin/boards", boardToCreate, String.class);
 
         DocumentContext boardJson = parse(response);
         assertThat(boardJson.read("$.model", String.class)).isEqualTo("IRS");
