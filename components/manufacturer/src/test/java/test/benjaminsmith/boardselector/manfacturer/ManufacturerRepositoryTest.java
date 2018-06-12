@@ -20,7 +20,7 @@ public class ManufacturerRepositoryTest {
     private JdbcTemplate jdbcTemplate;
 
     @Before
-    public void setUp() {
+    public void setup() {
         testScenarioSupport = new TestScenarioSupport("board_server_test");
         jdbcTemplate = testScenarioSupport.template;
         repository = new ManufacturerRepository(testScenarioSupport.dataSource);
@@ -42,8 +42,8 @@ public class ManufacturerRepositoryTest {
 
     @Test
     public void listReturnsAllManufacturersAlphabetically() {
-        Manufacturer badfish = repository.create(new Manufacturer("Badfish"));
         Manufacturer hala = repository.create(new Manufacturer("Hala"));
+        Manufacturer badfish = repository.create(new Manufacturer("Badfish"));
 
         List<Manufacturer> manufacturers = repository.list();
 

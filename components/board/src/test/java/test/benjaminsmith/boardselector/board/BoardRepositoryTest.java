@@ -66,6 +66,7 @@ public class BoardRepositoryTest {
 
         assertThat(boards.size()).isEqualTo(1);
         Board board = boards.get(0);
+        assertThat(board.getId()).isEqualTo(createdBoard.getId());
         assertThat(board.getConstructionId()).isEqualTo(construction.getId());
         assertThat(board.getManufacturerId()).isEqualTo(manufacturer.getId());
         assertThat(board.getModel()).isEqualTo("IRS");

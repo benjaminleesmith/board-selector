@@ -45,6 +45,6 @@ public class ManufacturerRepository {
     }
 
     public List<Manufacturer> list() {
-        return jdbcTemplate.query("SELECT * FROM manufacturers", new Object[] {}, rowMapper);
+        return jdbcTemplate.query("SELECT * FROM manufacturers ORDER BY name", new Object[] {}, rowMapper);
     }
 }
