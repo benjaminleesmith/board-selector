@@ -1,0 +1,5 @@
+databases {
+    devDatabase = "trusted_review_server_dev"
+    testDatabase = "trusted_review_server_test"
+    cfApp = "board-selector-trusted-review"
+}

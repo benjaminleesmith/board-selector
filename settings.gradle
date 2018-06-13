@@ -5,11 +5,13 @@ include "applications:board-server"
 include "components:construction"
 include "components:manufacturer"
 include "components:board"
+include "components:trusted-site"
 
 include "components:rest-support"
 include "components:test-support"
 
 include "databases:board-database"
+include "databases:trusted-review-database"
 
 //def includeSubFolders(String folder) {
 //    file(folder).eachDir {
