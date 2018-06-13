@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -36,6 +39,20 @@ public class BoardControllerTest {
 
         verify(repository).create(boardToCreate);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(response.getBody()).isEqualTo(expectedResult);
+    }
+
+    @Test
+    public void testList() {
+        List<Board> expectedResult = asList(
+                new Board(1, "IRS", 123, 456)
+        );
+        doReturn(expectedResult).when(repository).list();
+
+        ResponseEntity response = controller.list();
+
+        verify(repository).list();
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(expectedResult);
     }
 }
