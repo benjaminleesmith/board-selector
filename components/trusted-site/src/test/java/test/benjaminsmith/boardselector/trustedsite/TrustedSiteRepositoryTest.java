@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -35,5 +36,20 @@ public class TrustedSiteRepositoryTest {
         Map<String, Object> foundTrustedSite = jdbcTemplate.queryForMap("SELECT * FROM trusted_sites WHERE id = ?", createdTrustedSite.getId());
         assertThat(foundTrustedSite.get("id")).isEqualTo(createdTrustedSite.getId());
         assertThat(foundTrustedSite.get("name")).isEqualTo("SUP for the Soul");
+    }
+
+    @Test
+    public void listReturnsAllTrustedSitesOrderedAlphabetically() {
+        TrustedSite createdSupForTheSoul = repository.create(new TrustedSite("SUP for the Soul"));
+        TrustedSite createdEndlessWaves = repository.create(new TrustedSite("Endless Waves"));
+
+        List<TrustedSite> trustedSites = repository.list();
+        assertThat(trustedSites.size()).isEqualTo(2);
+        TrustedSite foundEndlessWaves = trustedSites.get(0);
+        assertThat(foundEndlessWaves.getId()).isEqualTo(createdEndlessWaves.getId());
+        assertThat(foundEndlessWaves.getName()).isEqualTo("Endless Waves");
+        TrustedSite foundSupForTheSoul = trustedSites.get(1);
+        assertThat(foundSupForTheSoul.getId()).isEqualTo(createdSupForTheSoul.getId());
+        assertThat(foundSupForTheSoul.getName()).isEqualTo("SUP for the Soul");
     }
 }

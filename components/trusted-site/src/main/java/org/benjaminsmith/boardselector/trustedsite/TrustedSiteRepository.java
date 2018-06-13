@@ -2,17 +2,27 @@ package org.benjaminsmith.boardselector.trustedsite;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.List;
 
+@Repository
 public class TrustedSiteRepository {
     private JdbcTemplate jdbcTemplate;
+    private RowMapper<TrustedSite> rowMapper = new RowMapper<TrustedSite>() {
+        @Override
+        public TrustedSite mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new TrustedSite(
+                    rs.getLong("id"),
+                    rs.getString("name")
+            );
+        }
+    };
 
     public TrustedSiteRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
@@ -35,5 +45,9 @@ public class TrustedSiteRepository {
 
         trustedSiteToCreate.setId(holder.getKey().longValue());
         return trustedSiteToCreate;
+    }
+
+    public List<TrustedSite> list() {
+        return jdbcTemplate.query("SELECT * FROM trusted_sites ORDER BY name", new Object[] {}, rowMapper);
     }
 }
