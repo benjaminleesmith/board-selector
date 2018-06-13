@@ -2,8 +2,7 @@ package test.benjaminsmith.boardselector.boardserver;
 
 import com.jayway.jsonpath.DocumentContext;
 import org.benjaminsmith.boardselector.board.Board;
-import org.benjaminsmith.boardselector.board.BoardRepository;
-import org.benjaminsmith.boardselector.construction.App;
+import org.benjaminsmith.boardselector.boardserver.App;
 import org.benjaminsmith.boardselector.construction.Construction;
 import org.benjaminsmith.boardselector.construction.ConstructionRepository;
 import org.benjaminsmith.boardselector.manufacturer.Manufacturer;
@@ -18,7 +17,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.TimeZone;
 
@@ -29,9 +27,6 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class, webEnvironment = RANDOM_PORT)
 public class BoardTest {
-    private TestScenarioSupport testScenarioSupport;
-    private JdbcTemplate jdbcTemplate;
-    private BoardRepository boardRepository;
     private ManufacturerRepository manufacturerRepository;
     private ConstructionRepository constructionRepository;
 
@@ -41,9 +36,8 @@ public class BoardTest {
 
     @Before
     public void setup() {
-        testScenarioSupport = new TestScenarioSupport("board_server_test");
-        jdbcTemplate = testScenarioSupport.template;
-        boardRepository = new BoardRepository(testScenarioSupport.dataSource);
+        TestScenarioSupport testScenarioSupport = new TestScenarioSupport("board_server_test");
+        JdbcTemplate jdbcTemplate = testScenarioSupport.template;
         manufacturerRepository = new ManufacturerRepository(testScenarioSupport.dataSource);
         constructionRepository = new ConstructionRepository(testScenarioSupport.dataSource);
 

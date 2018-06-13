@@ -1,7 +1,7 @@
 package test.benjaminsmith.boardselector.boardserver;
 
 import com.jayway.jsonpath.DocumentContext;
-import org.benjaminsmith.boardselector.construction.App;
+import org.benjaminsmith.boardselector.boardserver.App;
 import org.benjaminsmith.boardselector.manufacturer.Manufacturer;
 import org.benjaminsmith.boardselector.manufacturer.ManufacturerRepository;
 import org.benjaminsmith.boardselector.testsupport.TestScenarioSupport;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;

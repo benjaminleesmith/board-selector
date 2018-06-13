@@ -1,4 +1,4 @@
-package org.benjaminsmith.boardselector.construction;
+package org.benjaminsmith.boardselector.boardserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
