@@ -5,6 +5,7 @@ include "applications:board-server"
 include "components:construction"
 include "components:manufacturer"
 include "components:board"
+include "components:trusted-review"
 include "components:trusted-site"
 
 include "components:rest-support"
