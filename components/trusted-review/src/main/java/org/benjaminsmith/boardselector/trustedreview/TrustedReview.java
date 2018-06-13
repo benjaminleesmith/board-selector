@@ -9,6 +9,8 @@ public class TrustedReview {
     private long id;
     private TrustedSite trustedSite;
 
+    public TrustedReview() {}
+
     public TrustedReview(long id, long boardId, long trustedSiteId, int rating, String trustedSiteName) {
         this.id = id;
         this.boardId = boardId;

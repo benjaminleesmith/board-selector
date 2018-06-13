@@ -51,11 +51,17 @@ public class TrustedReviewTest {
     @Test
     public void testTrustedReviews() {
         TrustedSite trustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul"));
-        trustedReviewRepository.create(new TrustedReview(123, trustedSite.getId(), 90));
 
-        String response = restTemplate.getForObject("/board/123/trusted_reviews", String.class);
+        String createResponse = restTemplate.postForObject("/admin/trusted_reviews", new TrustedReview(123L, trustedSite.getId(), 90), String.class);
+        DocumentContext createdTrustedReviewJson = parse(createResponse);
+        assertThat(new Long((int)createdTrustedReviewJson.read("$.id"))).isNotNull();
+        assertThat(new Long((int)createdTrustedReviewJson.read("$.boardId"))).isEqualTo(123L);
+        assertThat(new Long((int)createdTrustedReviewJson.read("$.trustedSiteId"))).isEqualTo(trustedSite.getId());
+        assertThat((int)createdTrustedReviewJson.read("$.rating")).isEqualTo(90);
 
-        DocumentContext trustedReviewsJson = parse(response);
+        String listResponse = restTemplate.getForObject("/board/123/trusted_reviews", String.class);
+
+        DocumentContext trustedReviewsJson = parse(listResponse);
         List<HashMap> trustedReviews = trustedReviewsJson.read("$");
         assertThat(trustedReviews.size()).isEqualTo(1);
         HashMap<String, Object> trustedReview = trustedReviews.get(0);
