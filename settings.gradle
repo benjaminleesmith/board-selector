@@ -2,12 +2,14 @@ rootProject.name = "board-selector"
 
 include "applications:board-server"
 include "applications:trusted-review-server"
+include "applications:board-review-server"
 
 include "components:construction"
 include "components:manufacturer"
 include "components:board"
 include "components:trusted-review"
 include "components:trusted-site"
+include "components:board-review"
 
 include "components:rest-support"
 include "components:test-support"
