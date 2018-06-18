@@ -3,7 +3,8 @@ apply plugin: "org.springframework.boot"
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile("org.springframework.boot:spring-boot-starter-jdbc")
-    compile "mysql:mysql-connector-java:$mysqlVersion"
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("mysql:mysql-connector-java:$mysqlVersion")
 }
 
 apply plugin: "io.spring.dependency-management"
@@ -12,4 +13,16 @@ dependencyManagement {
     imports {
         mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:$springCloudServicesVersion"
     }
+}
+
+bootRun.environment([
+        "MANAGEMENT_SECURITY_ENABLED": false,
+])
+
+test.environment([
+        "MANAGEMENT_SECURITY_ENABLED": false,
+])
+
+springBoot {
+    buildInfo()
 }
