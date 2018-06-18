@@ -1,7 +1,7 @@
 applications:
-- name: board-review-server
+- name: board-selector-board-review-server
   path: ./applications/board-review-server/build/libs/board-review-server.jar
-  host: board-review-server
+  host: board-selector-board-review-server
   memory: 640M
   disk: 256M
   instances: 1
