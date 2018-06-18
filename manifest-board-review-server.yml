@@ -1,0 +1,10 @@
+applications:
+- name: board-review-server
+  path: ./applications/board-review-server/build/libs/board-review-server.jar
+  host: board-review-server
+  memory: 640M
+  disk: 256M
+  instances: 1
+  env:
+    TRUSTEDREVIEW_SERVER_ENDPOINT: http://board-selector-trusted-review-server.cfapps.io/
+    BOARD_SERVER_ENDPOINT: http://board-selector-board-server.cfapps.io/
