@@ -1,8 +1,12 @@
 apply from: "$projectDir/../server.gradle"
 
+apply plugin: "org.springframework.boot"
+
 dependencies {
     compile project(":components:trusted-review")
     compile project(":components:trusted-site")
+
+    compile("org.springframework.boot:spring-boot-starter-security")
 
     testCompile project(":components:test-support")
     testCompile('org.springframework.boot:spring-boot-starter-test')

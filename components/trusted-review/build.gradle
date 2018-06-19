@@ -1,12 +1,8 @@
-apply plugin: "org.springframework.boot"
-
 dependencies {
     compile project(":components:trusted-site")
     compile project(":components:rest-support")
 
     compile "org.springframework:spring-jdbc:$springVersion"
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-security")
 
     testCompile project(":components:test-support")
 }

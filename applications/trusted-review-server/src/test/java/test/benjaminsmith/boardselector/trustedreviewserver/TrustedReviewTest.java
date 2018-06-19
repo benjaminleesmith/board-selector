@@ -40,7 +40,7 @@ public class TrustedReviewTest {
         trustedReviewRepository = new TrustedReviewRepository(testScenarioSupport.dataSource);
         trustedSiteRepository = new TrustedSiteRepository(testScenarioSupport.dataSource);
 
-        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port);
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port).basicAuthorization("admin", "password");
         restTemplate = new TestRestTemplate(restTemplateBuilder);
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(testScenarioSupport.dataSource);

@@ -1,4 +1,4 @@
-package org.benjaminsmith.boardselector.trustedreview;
+package org.benjaminsmith.boardselector.trustedreviewserver;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -37,7 +37,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser(adminUsername).password(adminPassword).roles("USER");
+                .withUser("admin").password("password").roles("USER");
     }
-
 }
