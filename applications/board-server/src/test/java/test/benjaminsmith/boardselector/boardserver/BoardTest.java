@@ -46,7 +46,7 @@ public class BoardTest {
         jdbcTemplate.execute("DELETE FROM boards");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
-        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port);
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port).basicAuthorization("admin", "password");
         restTemplate = new TestRestTemplate(restTemplateBuilder);
     }
 

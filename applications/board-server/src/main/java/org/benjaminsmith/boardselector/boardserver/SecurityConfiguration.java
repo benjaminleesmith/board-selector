@@ -1,4 +1,4 @@
-package org.benjaminsmith.boardselector.trustedreviewserver;
+package org.benjaminsmith.boardselector.boardserver;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -24,19 +24,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/trusted_reviews").hasRole("USER")
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, "/admin/**").hasRole("USER")
                 .and().httpBasic()
                 .and().csrf().disable();
 
         if(!httpsDisabled) {
-            http.requiresChannel().anyRequest().requiresSecure();
+            httpSecurity.requiresChannel().anyRequest().requiresSecure();
         }
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser(adminUsername).password(adminPassword).roles("USER");
+        authenticationManagerBuilder.inMemoryAuthentication().withUser(adminUsername).password(adminPassword).roles("USER");
     }
 }
