@@ -6,6 +6,7 @@ env:
   - RELEASE_TAG="release-$TRAVIS_BUILD_NUMBER"
 stages:
   - build and publish
+  - deploy
 if: tag IS blank
 
 jobs:
@@ -32,3 +33,38 @@ jobs:
           - "applications/trusted-review-server/build/libs/trusted-review-server.jar"
           - "applications/board-review-server/build/libs/board-review-server.jar"
         skip_cleanup: true
+    - stage: deploy
+      language: java
+      script:
+      - echo "Downloading board server $RELEASE_TAG"
+      - wget -P applications/board-server/build/libs https://github.com/$GITHUB_USERNAME/board-selector/releases/download/$RELEASE_TAG/board-server.jar
+      before_deploy:
+      - cp manifest-board-server.yml manifest.yml
+      - echo "Deploying board server $RELEASE_TAG"
+      deploy: &cloudfoundry
+        provider: cloudfoundry
+        api: $CF_API_URL
+        username: $CF_USERNAME
+        password: $CF_PASSWORD
+        organization: $CF_ORG
+        space: review
+    - stage: deploy
+      language: bash
+      script:
+      - echo "Downloading trusted review server $RELEASE_TAG"
+      - wget -P applications/trusted-review-server/build/libs https://github.com/$GITHUB_USERNAME/board-selector/releases/download/$RELEASE_TAG/trusted-review-server.jar
+      before_deploy:
+      - cp manifest-trusted-review-server.yml manifest.yml
+      - echo "Deploying trusted review server $RELEASE_TAG"
+      deploy:
+        <<: *cloudfoundry
+    - stage: deploy
+      language: bash
+      script:
+      - echo "Downloading board review server $RELEASE_TAG"
+      - wget -P applications/board-review-server/build/libs https://github.com/$GITHUB_USERNAME/board-selector/releases/download/$RELEASE_TAG/board-review-server.jar
+      before_deploy:
+      - cp manifest-board-review-server.yml manifest.yml
+      - echo "Deploying board review server $RELEASE_TAG"
+      deploy:
+        <<: *cloudfoundry

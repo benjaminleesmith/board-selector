@@ -1,0 +1,7 @@
+applications:
+- name: board-selector-trusted-review-server-review
+  path: ./applications/trusted-review-server/build/libs/trusted-review-server.jar
+  host: board-selector-trusted-review-server-review
+  memory: 640M
+  disk: 256M
+  instances: 1
