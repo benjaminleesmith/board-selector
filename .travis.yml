@@ -28,7 +28,7 @@ jobs:
         provider: releases
         api_key: $GITHUB_OAUTH_TOKEN
         file:
-          - "applications/board-server/build/libs/allocations-server.jar"
-          - "applications/trusted-review-server/build/libs/backlog-server.jar"
-          - "applications/board-review-server/build/libs/registration-server.jar"
+          - "applications/board-server/build/libs/board-server.jar"
+          - "applications/trusted-review-server/build/libs/trusted-review-server.jar"
+          - "applications/board-review-server/build/libs/board-review-server.jar"
         skip_cleanup: true
