@@ -19,7 +19,8 @@ public class TrustedSiteRepository {
         public TrustedSite mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new TrustedSite(
                     rs.getLong("id"),
-                    rs.getString("name")
+                    rs.getString("name"),
+                    rs.getString("url")
             );
         }
     };

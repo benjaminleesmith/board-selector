@@ -22,7 +22,8 @@ public class TrustedReviewRepository {
                     resultSet.getLong("board_id"),
                     resultSet.getLong("trusted_site_id"),
                     resultSet.getInt("rating"),
-                    resultSet.getString("name")
+                    resultSet.getString("name"),
+                    resultSet.getString("url")
             );
         }
     };

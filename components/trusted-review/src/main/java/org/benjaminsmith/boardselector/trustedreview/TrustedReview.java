@@ -11,12 +11,12 @@ public class TrustedReview {
 
     public TrustedReview() {}
 
-    public TrustedReview(long id, long boardId, long trustedSiteId, int rating, String trustedSiteName) {
+    public TrustedReview(long id, long boardId, long trustedSiteId, int rating, String trustedSiteName, String trustedSiteUrl) {
         this.id = id;
         this.boardId = boardId;
         this.trustedSiteId = trustedSiteId;
         this.rating = rating;
-        this.trustedSite = new TrustedSite(trustedSiteId, trustedSiteName);
+        this.trustedSite = new TrustedSite(trustedSiteId, trustedSiteName, trustedSiteUrl);
     }
 
     public TrustedReview(long boardId, long trustedSiteId, int rating) {

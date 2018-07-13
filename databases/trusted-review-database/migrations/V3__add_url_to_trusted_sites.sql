@@ -1,0 +1,1 @@
+ALTER TABLE trusted_sites ADD COLUMN url VARCHAR(256);
