@@ -30,7 +30,7 @@ public class TrustedReviewControllerTest {
     @Test
     public void createInsertsTrustedReviewRow() {
         TrustedReview trustedReviewToCreate = new TrustedReview(456, 789, 90);
-        TrustedReview expectedResult = new TrustedReview(123, 456, 789, 90, "SUP for the Soul");
+        TrustedReview expectedResult = new TrustedReview(123, 456, 789, 90, "SUP for the Soul", "http://www.supforthesoul.com/");
         doReturn(expectedResult).when(repository).create(any(TrustedReview.class));
 
         ResponseEntity<TrustedReview> responseEntity = controller.create(trustedReviewToCreate);
@@ -43,8 +43,8 @@ public class TrustedReviewControllerTest {
     @Test
     public void listReturnsTrustedReviewsForABoard() {
         List<TrustedReview> expectedTrustedReviews = asList(
-                new TrustedReview(1, 123, 999, 90, "SUP for the Soul"),
-                new TrustedReview(2, 123, 888, 80, "Endless Waves")
+                new TrustedReview(1, 123, 999, 90, "SUP for the Soul", "http://www.supforthesoul.com/"),
+                new TrustedReview(2, 123, 888, 80, "Endless Waves", "https://endlesswaves.net/")
         );
         doReturn(expectedTrustedReviews).when(repository).findByBoardId(123);
 

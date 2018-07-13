@@ -28,8 +28,8 @@ public class TrustedSiteControllerTest {
     @Test
     public void list() {
         List<TrustedSite> expectedResult = asList(
-                new TrustedSite(1, "SUP for the Soul"),
-                new TrustedSite(2, "Endless Waves")
+                new TrustedSite(1, "SUP for the Soul", "http://www.supforthesoul.com/"),
+                new TrustedSite(2, "Endless Waves", "https://endlesswaves.net/")
         );
         doReturn(expectedResult).when(repository).list();
 
