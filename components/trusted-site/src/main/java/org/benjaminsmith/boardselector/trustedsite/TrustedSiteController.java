@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/trusted_sites")
+@RequestMapping("/trusted_sites")
 public class TrustedSiteController {
     private TrustedSiteRepository repository;
 

@@ -16,7 +16,7 @@ public class BoardController {
     }
 
     @GetMapping("/boards")
-    public ResponseEntity<Board[]> list() {
+    public ResponseEntity<AllBoards> list() {
         Board[] boards = boardClient.getBoards();
 
         for(int i = 0; i < boards.length; i++) {
@@ -24,6 +24,8 @@ public class BoardController {
             boards[i].setTrustedReviews(trustedReviews);
         }
 
-        return new ResponseEntity<Board[]>(boards, HttpStatus.OK);
+        TrustedSite[] trustedSites = trustedReviewClient.getTrustedSites();
+
+        return new ResponseEntity<AllBoards>(new AllBoards(boards, trustedSites), HttpStatus.OK);
     }
 }

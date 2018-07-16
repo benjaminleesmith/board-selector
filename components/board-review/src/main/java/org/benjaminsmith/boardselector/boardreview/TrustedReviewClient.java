@@ -15,4 +15,9 @@ public class TrustedReviewClient {
         String url = endpoint + "/board/" + boardId + "/trusted_reviews";
         return restOperations.getForObject(url, TrustedReview[].class);
     }
+
+    public TrustedSite[] getTrustedSites() {
+        String url = endpoint + "/trusted_sites";
+        return restOperations.getForObject(url, TrustedSite[].class);
+    }
 }

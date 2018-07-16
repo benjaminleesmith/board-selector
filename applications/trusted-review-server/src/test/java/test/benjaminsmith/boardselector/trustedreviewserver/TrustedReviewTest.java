@@ -52,7 +52,7 @@ public class TrustedReviewTest {
     public void testTrustedReviews() {
         TrustedSite createdTrustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul"));
 
-        String listTrustedSitesResponse = restTemplate.getForObject("/admin/trusted_sites", String.class);
+        String listTrustedSitesResponse = restTemplate.getForObject("/trusted_sites", String.class);
         DocumentContext listTrustedSitesJson = parse(listTrustedSitesResponse);
         List<HashMap> trustedSites = listTrustedSitesJson.read("$");
         assertThat(trustedSites.size()).isEqualTo(1);

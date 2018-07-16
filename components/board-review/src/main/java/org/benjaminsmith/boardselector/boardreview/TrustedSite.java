@@ -6,6 +6,11 @@ public class TrustedSite {
 
     private TrustedSite() {}
 
+    public TrustedSite(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

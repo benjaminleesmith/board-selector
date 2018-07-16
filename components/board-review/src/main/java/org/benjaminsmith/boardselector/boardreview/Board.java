@@ -7,6 +7,15 @@ public class Board {
     private long manufacturerId;
     private TrustedReview[] trustedReviews;
 
+    private Board() {}
+
+    public Board(long id, String model, long constructionId, long manufacturerId) {
+        this.id = id;
+        this.model = model;
+        this.constructionId = constructionId;
+        this.manufacturerId = manufacturerId;
+    }
+
     public void setTrustedReviews(TrustedReview[] trustedReviews) {
         this.trustedReviews = trustedReviews;
     }
