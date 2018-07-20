@@ -1,5 +1,5 @@
 databases {
     devDatabase = "board_server_dev"
     testDatabase = "board_server_test"
-    cfApp = "board-selector-board"
+    cfApp = "board-selector-board-server-review"
 }
