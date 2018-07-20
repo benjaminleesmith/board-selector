@@ -36,7 +36,7 @@ public class TrustedReviewRepositoryTest {
     public void createInsertsATrustedReviewRow() {
         long boardId = 123;
         int rating = 90;
-        TrustedSite trustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul"));
+        TrustedSite trustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul", "http://www.supforthesoul.com/"));
         TrustedReview trustedReviewToCreate = new TrustedReview(boardId, trustedSite.getId(), rating);
 
         TrustedReview createdTrustedReview = repository.create(trustedReviewToCreate);
@@ -50,8 +50,8 @@ public class TrustedReviewRepositoryTest {
 
     @Test
     public void findByBoardIdReturnsTrustedReviewsWithTrustedSitesOrderedByName() {
-        TrustedSite supForTheSoul = trustedSiteRepository.create(new TrustedSite("SUP for the Soul"));
-        TrustedSite endlessWaves = trustedSiteRepository.create(new TrustedSite("Endless Waves"));
+        TrustedSite supForTheSoul = trustedSiteRepository.create(new TrustedSite("SUP for the Soul", "http://www.supforthesoul.com/"));
+        TrustedSite endlessWaves = trustedSiteRepository.create(new TrustedSite("Endless Waves", "https://endlesswaves.net/"));
         repository.create(new TrustedReview(456, supForTheSoul.getId(), 80));
         repository.create(new TrustedReview(123, supForTheSoul.getId(), 70));
         repository.create(new TrustedReview(123, endlessWaves.getId(), 60));
@@ -63,11 +63,13 @@ public class TrustedReviewRepositoryTest {
         assertThat(firstReview.getTrustedSiteId()).isEqualTo(endlessWaves.getId());
         assertThat(firstReview.getRating()).isEqualTo(60);
         assertThat(firstReview.getTrustedSite().getName()).isEqualTo("Endless Waves");
+        assertThat(firstReview.getTrustedSite().getUrl()).isEqualTo("https://endlesswaves.net/");
 
         TrustedReview secondReview = trustedReviews.get(1);
         assertThat(secondReview.getBoardId()).isEqualTo(123);
         assertThat(secondReview.getTrustedSiteId()).isEqualTo(supForTheSoul.getId());
         assertThat(secondReview.getRating()).isEqualTo(70);
         assertThat(secondReview.getTrustedSite().getName()).isEqualTo("SUP for the Soul");
+        assertThat(secondReview.getTrustedSite().getUrl()).isEqualTo("http://www.supforthesoul.com/");
     }
 }
