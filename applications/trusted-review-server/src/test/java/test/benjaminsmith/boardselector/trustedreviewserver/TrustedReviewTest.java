@@ -50,7 +50,7 @@ public class TrustedReviewTest {
 
     @Test
     public void testTrustedReviews() {
-        TrustedSite createdTrustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul"));
+        TrustedSite createdTrustedSite = trustedSiteRepository.create(new TrustedSite("SUP for the Soul", "http://www.supforthesoul.com/"));
 
         String listTrustedSitesResponse = restTemplate.getForObject("/trusted_sites", String.class);
         DocumentContext listTrustedSitesJson = parse(listTrustedSitesResponse);
@@ -59,6 +59,7 @@ public class TrustedReviewTest {
         HashMap<String, Object> foundTrustedSite = trustedSites.get(0);
         assertThat(new Long((int)foundTrustedSite.get("id"))).isEqualTo(createdTrustedSite.getId());
         assertThat((String)foundTrustedSite.get("name")).isEqualTo("SUP for the Soul");
+        assertThat((String)foundTrustedSite.get("url")).isEqualTo("http://www.supforthesoul.com/");
 
         String createTrustedReviewResponse = restTemplate.postForObject("/admin/trusted_reviews", new TrustedReview(123L, createdTrustedSite.getId(), 90), String.class);
         DocumentContext createdTrustedReviewJson = parse(createTrustedReviewResponse);

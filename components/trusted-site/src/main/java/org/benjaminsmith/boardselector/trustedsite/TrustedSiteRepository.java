@@ -31,7 +31,7 @@ public class TrustedSiteRepository {
 
     public TrustedSite create(TrustedSite trustedSiteToCreate) {
         KeyHolder holder = new GeneratedKeyHolder();
-        final String sql = "INSERT INTO trusted_sites (name) VALUES(?)";
+        final String sql = "INSERT INTO trusted_sites (name, url) VALUES(?, ?)";
 
         jdbcTemplate.update(new PreparedStatementCreator() {
             @Override
@@ -40,6 +40,7 @@ public class TrustedSiteRepository {
                 PreparedStatement ps = connection.prepareStatement(sql.toString(),
                         Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, trustedSiteToCreate.getName());
+                ps.setString(2, trustedSiteToCreate.getUrl());
                 return ps;
             }
         }, holder);

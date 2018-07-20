@@ -3,6 +3,7 @@ package org.benjaminsmith.boardselector.boardreview;
 public class TrustedSite {
     private long id;
     private String name;
+    private String url;
 
     private TrustedSite() {}
 
@@ -17,5 +18,9 @@ public class TrustedSite {
 
     public String getName() {
         return name;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }

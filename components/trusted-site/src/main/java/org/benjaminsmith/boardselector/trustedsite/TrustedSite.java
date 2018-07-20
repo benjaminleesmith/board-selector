@@ -5,8 +5,9 @@ public class TrustedSite {
     private long id;
     private String url;
 
-    public TrustedSite(String name) {
+    public TrustedSite(String name, String url) {
         this.name = name;
+        this.url = url;
     }
 
     public TrustedSite(long id, String name, String url) {

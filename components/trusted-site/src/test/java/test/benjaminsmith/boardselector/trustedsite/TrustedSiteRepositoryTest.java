@@ -29,19 +29,20 @@ public class TrustedSiteRepositoryTest {
 
     @Test
     public void createInsertsATrustedReviewSiteRow() {
-        TrustedSite trustedSiteToCreate = new TrustedSite("SUP for the Soul");
+        TrustedSite trustedSiteToCreate = new TrustedSite("SUP for the Soul", "http://www.supforthesoul.com/");
 
         TrustedSite createdTrustedSite = repository.create(trustedSiteToCreate);
 
         Map<String, Object> foundTrustedSite = jdbcTemplate.queryForMap("SELECT * FROM trusted_sites WHERE id = ?", createdTrustedSite.getId());
         assertThat(foundTrustedSite.get("id")).isEqualTo(createdTrustedSite.getId());
         assertThat(foundTrustedSite.get("name")).isEqualTo("SUP for the Soul");
+        assertThat(foundTrustedSite.get("url")).isEqualTo("http://www.supforthesoul.com/");
     }
 
     @Test
     public void listReturnsAllTrustedSitesOrderedAlphabetically() {
-        TrustedSite createdSupForTheSoul = repository.create(new TrustedSite("SUP for the Soul"));
-        TrustedSite createdEndlessWaves = repository.create(new TrustedSite("Endless Waves"));
+        TrustedSite createdSupForTheSoul = repository.create(new TrustedSite("SUP for the Soul", "http://www.supforthesoul.com/"));
+        TrustedSite createdEndlessWaves = repository.create(new TrustedSite("Endless Waves", "https://endlesswaves.net/"));
 
         List<TrustedSite> trustedSites = repository.list();
         assertThat(trustedSites.size()).isEqualTo(2);
