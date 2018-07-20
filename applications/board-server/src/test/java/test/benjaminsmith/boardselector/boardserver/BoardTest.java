@@ -8,15 +8,15 @@ import org.benjaminsmith.boardselector.construction.ConstructionRepository;
 import org.benjaminsmith.boardselector.manufacturer.Manufacturer;
 import org.benjaminsmith.boardselector.manufacturer.ManufacturerRepository;
 import org.benjaminsmith.boardselector.testsupport.TestScenarioSupport;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,20 +24,16 @@ import java.util.TimeZone;
 
 import static com.jayway.jsonpath.JsonPath.parse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class, webEnvironment = RANDOM_PORT)
 public class BoardTest {
+    private ConfigurableApplicationContext context;
     private ManufacturerRepository manufacturerRepository;
     private ConstructionRepository constructionRepository;
-
-    @LocalServerPort
-    private String port;
     private TestRestTemplate restTemplate;
 
     @Before
     public void setup() {
+        context = SpringApplication.run(App.class);
         TestScenarioSupport testScenarioSupport = new TestScenarioSupport("board_server_test");
         JdbcTemplate jdbcTemplate = testScenarioSupport.template;
         manufacturerRepository = new ManufacturerRepository(testScenarioSupport.dataSource);
@@ -46,8 +42,13 @@ public class BoardTest {
         jdbcTemplate.execute("DELETE FROM boards");
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
-        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port).basicAuthorization("admin", "password");
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:8182").basicAuthorization("admin", "password");
         restTemplate = new TestRestTemplate(restTemplateBuilder);
+    }
+
+    @After
+    public void tearDown() {
+        context.close();
     }
 
     @Test
@@ -70,10 +71,10 @@ public class BoardTest {
         List<HashMap> boards = boardsJson.read("$");
         assertThat(boards.size()).isEqualTo(1);
         HashMap<String, Object> board = boards.get(0);
-        assertThat(new Long((int)board.get("id"))).isEqualTo(boardId);
-        assertThat((String)board.get("model")).isEqualTo("IRS");
-        assertThat(new Long((int)board.get("constructionId"))).isEqualTo(construction.getId());
-        assertThat(new Long((int)board.get("manufacturerId"))).isEqualTo(manufacturer.getId());
+        assertThat(new Long((int) board.get("id"))).isEqualTo(boardId);
+        assertThat((String) board.get("model")).isEqualTo("IRS");
+        assertThat(new Long((int) board.get("constructionId"))).isEqualTo(construction.getId());
+        assertThat(new Long((int) board.get("manufacturerId"))).isEqualTo(manufacturer.getId());
 
     }
 }

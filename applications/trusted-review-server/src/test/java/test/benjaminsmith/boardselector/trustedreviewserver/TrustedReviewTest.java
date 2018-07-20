@@ -7,45 +7,45 @@ import org.benjaminsmith.boardselector.trustedreview.TrustedReviewRepository;
 import org.benjaminsmith.boardselector.trustedreviewserver.App;
 import org.benjaminsmith.boardselector.trustedsite.TrustedSite;
 import org.benjaminsmith.boardselector.trustedsite.TrustedSiteRepository;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.context.embedded.LocalServerPort;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.HashMap;
 import java.util.List;
 
 import static com.jayway.jsonpath.JsonPath.parse;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = App.class, webEnvironment = RANDOM_PORT)
 public class TrustedReviewTest {
-    @LocalServerPort
-    private String port;
-
+    private ConfigurableApplicationContext context;
     private TestRestTemplate restTemplate;
     private TrustedReviewRepository trustedReviewRepository;
     private TrustedSiteRepository trustedSiteRepository;
 
     @Before
     public void setup() {
+        context = SpringApplication.run(App.class);
         TestScenarioSupport testScenarioSupport = new TestScenarioSupport("trusted_review_server_test");
         trustedReviewRepository = new TrustedReviewRepository(testScenarioSupport.dataSource);
         trustedSiteRepository = new TrustedSiteRepository(testScenarioSupport.dataSource);
 
-        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:"+port).basicAuthorization("admin", "password");
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder().rootUri("http://localhost:8183").basicAuthorization("admin", "password");
         restTemplate = new TestRestTemplate(restTemplateBuilder);
 
         JdbcTemplate jdbcTemplate = new JdbcTemplate(testScenarioSupport.dataSource);
         jdbcTemplate.execute("DELETE FROM trusted_reviews");
         jdbcTemplate.execute("DELETE FROM trusted_sites");
+    }
+
+    @After
+    public void tearDown() {
+        context.close();
     }
 
     @Test
